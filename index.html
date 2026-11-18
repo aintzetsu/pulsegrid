@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseGrid — 16-Step Drum Sequencer &amp; Web Audio Synth</title>
+  <link rel="stylesheet" href="styles/tokens.css">
+  <link rel="stylesheet" href="styles/main.css">
+  <script defer src="js/synth.js"></script>
+  <script defer src="js/app.js"></script>
+</head>
+<body>
+  <div class="studio-wrap">
+    <main class="deck">
+      <header class="deck-header">
+        <div class="brand">
+          <div class="brand-led" aria-hidden="true">PG16</div>
+          <div>
+            <h1>PulseGrid Sequencer</h1>
+            <p>Web Audio 5-voice hardware step sequencer &amp; polyphonic synth</p>
+          </div>
+        </div>
+
+        <div class="transport-group">
+          <button type="button" class="btn btn-play" id="playBtn" aria-pressed="false">Play (Space)</button>
+          <button type="button" class="btn" id="stopBtn">Stop &amp; Reset</button>
+          <button type="button" class="btn" id="randomBtn">Randomize</button>
+          <button type="button" class="btn" id="exportBtn">Export JSON</button>
+        </div>
+      </header>
+
+      <section class="meter-grid" aria-label="Audio oscilloscope and synthesizer controls">
+        <div class="scope-panel">
+          <div class="scope-header">
+            <span>MASTER OUTPUT OSCILLOSCOPE</span>
+            <span id="stepTelemetry">STEP 01 / 16 · IDLE</span>
+          </div>
+          <canvas class="scope-canvas" id="scopeCanvas" width="540" height="92" aria-label="Live waveform visualizer"></canvas>
+        </div>
+
+        <div class="params-panel">
+          <div class="knob-box">
+            <div class="knob-label">
+              <label for="bpmSlider">Tempo (BPM)</label>
+              <span class="knob-val" id="bpmVal">118</span>
+            </div>
+            <input type="range" id="bpmSlider" min="70" max="165" value="118">
+          </div>
+
+          <div class="knob-box">
+            <div class="knob-label">
+              <label for="swingSlider">Groove Swing</label>
+              <span class="knob-val" id="swingVal">12%</span>
+            </div>
+            <input type="range" id="swingSlider" min="0" max="45" value="12">
+          </div>
+
+          <div class="knob-box">
+            <div class="knob-label">
+              <label for="volSlider">Master Gain</label>
+              <span class="knob-val" id="volVal">80%</span>
+            </div>
+            <input type="range" id="volSlider" min="10" max="100" value="80">
+          </div>
+
+          <div class="knob-box">
+            <div class="knob-label">
+              <label for="scaleSelect">Synth Scale</label>
+            </div>
+            <select class="select-input" id="scaleSelect">
+              <option value="f-minor">F Natural Minor</option>
+              <option value="a-minor">A Natural Minor</option>
+              <option value="c-dorian">C Dorian Groove</option>
+              <option value="d-phrygian">D Phrygian Dark</option>
+            </select>
+          </div>
+
+          <div class="knob-box">
+            <div class="knob-label">
+              <label for="cutoffSlider">Synth Filter</label>
+              <span class="knob-val" id="cutoffVal">1400 Hz</span>
+            </div>
+            <input type="range" id="cutoffSlider" min="300" max="3800" step="50" value="1400">
+          </div>
+
+          <div class="knob-box">
+            <div class="knob-label">
+              <label for="driveSlider">Warm Drive</label>
+              <span class="knob-val" id="driveVal">18%</span>
+            </div>
+            <input type="range" id="driveSlider" min="0" max="60" value="18">
+          </div>
+        </div>
+      </section>
+
+      <div class="presets-bar">
+        <div class="preset-pills" role="group" aria-label="Curated rhythm presets">
+          <button type="button" class="preset-btn is-active" data-preset="deepHouse">Deep House</button>
+          <button type="button" class="preset-btn" data-preset="lofiChill">Lo-Fi Chill</button>
+          <button type="button" class="preset-btn" data-preset="electroBreak">Electro Break</button>
+          <button type="button" class="preset-btn" data-preset="clear">Clear Pattern</button>
+        </div>
+        <span style="font-size:12px;color:var(--text-secondary);">Tip: Click pad to toggle · Shift+Click (or Right-Click) for Accent hit</span>
+      </div>
+
+      <section class="matrix-scroll" aria-label="16-step beat matrix">
+        <div class="matrix" id="matrix"></div>
+      </section>
+
+      <footer class="deck-footer">
+        <span>Auto-saved to browser storage · Zero samples or external audio dependencies</span>
+        <span>Keys: <strong>Space</strong> Play/Pause · <strong>M/S</strong> Mute/Solo tracks</span>
+      </footer>
+    </main>
+  </div>
+
+  <div class="toast" id="toast" hidden role="status" aria-live="polite"></div>
+</body>
+</html>
